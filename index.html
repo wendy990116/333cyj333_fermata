@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Daily Chat</title>
+  <link rel="manifest" href="/manifest.webmanifest">
+  <link rel="stylesheet" href="/styles.css">
+  <meta name="theme-color" content="#111111"/>
+</head>
+<body>
+  <header>
+    <h1>Daily Chat</h1>
+    <button id="enablePush">啟用通知</button>
+  </header>
+
+  <main id="chat">
+    <ul id="messages"></ul>
+  </main>
+
+  <footer>
+    <small>每日一更 · 音檔＋文字</small>
+  </footer>
+
+  <!-- Firebase (compat for simplicity) -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-messaging-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-firestore-compat.js"></script>
+
+  <script src="/app.js"></script>
+</body>
+</html>
