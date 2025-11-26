@@ -2,9 +2,9 @@
 (async () => {
   if ('serviceWorker' in navigator) {
     try {
-      await navigator.serviceWorker.register('/sw.js');
+      await navigator.serviceWorker.register('sw.js');
       // FCM worker must be at root path
-      await navigator.serviceWorker.register('/firebase-messaging-sw.js');
+      await navigator.serviceWorker.register('firebase-messaging-sw.js');
       console.log('Service workers registered');
     } catch (e) {
       console.warn('SW register failed', e);
