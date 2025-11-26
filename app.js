@@ -1,11 +1,16 @@
 // Register service workers
+let swRegistration = null;
+
 (async () => {
   if ('serviceWorker' in navigator) {
     try {
+      // 註冊一般的 service worker
       await navigator.serviceWorker.register('sw.js');
-      // FCM worker must be at root path
-      await navigator.serviceWorker.register('firebase-messaging-sw.js');
-      console.log('Service workers registered');
+      console.log('Service worker registered');
+      
+      // 等待 service worker 啟動
+      await navigator.serviceWorker.ready;
+      console.log('Service worker is ready');
     } catch (e) {
       console.warn('SW register failed', e);
     }
@@ -36,11 +41,20 @@ async function initMessaging() {
   if (!('Notification' in window)) throw new Error('This browser does not support notifications');
   if (!firebase.messaging?.isSupported?.() || !firebase.messaging.isSupported()) throw new Error('Messaging not supported');
 
+  // 確保 service worker 已經啟動
+  await navigator.serviceWorker.ready;
+  
   messaging = firebase.messaging();
+  
   // 需要在使用者操作下觸發
   const perm = await Notification.requestPermission();
   if (perm !== 'granted') throw new Error('Permission denied');
-  const token = await messaging.getToken({ vapidKey: 'BPXpZoklt6iKHYiJGa71DevdGzCPh9V3KFZnGP3JWdC00bIr2nj-1UJ9okBJGjxBGP9QfNq6NPB6XpvvGLhxK10' });
+  
+  const token = await messaging.getToken({ 
+    vapidKey: 'BPXpZoklt6iKHYiJGa71DevdGzCPh9V3KFZnGP3JWdC00bIr2nj-1UJ9okBJGjxBGP9QfNq6NPB6XpvvGLhxK10',
+    serviceWorkerRegistration: await navigator.serviceWorker.ready
+  });
+  
   console.log('FCM token', token);
 
   // 存 token（用 token 當 doc id 方便去重）
