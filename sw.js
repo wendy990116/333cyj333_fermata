@@ -1,5 +1,11 @@
 const CACHE = 'pwa-chat-cache-v1';
-const ASSETS = ['/', '/index.html', '/styles.css', '/app.js', '/manifest.webmanifest'];
+const ASSETS = [
+  '/', 
+  '/index.html', 
+  '/styles.css', 
+  '/app.js', 
+  '/manifest.webmanifest'
+];
 
 self.addEventListener('install', (e) => {
   e.waitUntil(caches.open(CACHE).then(c => c.addAll(ASSETS)));
