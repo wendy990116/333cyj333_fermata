@@ -126,12 +126,20 @@ function render(msg) {
   li.innerHTML = `
     <div class="bubble">
       <div class="text">${(msg.text || '').replace(/</g,'&lt;')}</div>
-      ${msg.audioUrl ? `<audio class="audio" controls preload="none" src="${msg.audioUrl}"></audio>` : ''}
+      ${
+        msg.mediaUrl ?
+        (msg.mediaType === 'video' 
+          ? `<video controls width="350" src="${msg.mediaUrl}"></video>`
+          : `<audio controls preload="none" src="${msg.mediaUrl}"></audio>`
+        )
+        : ''
+      }
       <div class="meta">${msg.createdAt ? new Date(msg.createdAt.seconds ? msg.createdAt.seconds*1000 : msg.createdAt).toLocaleString() : ''}</div>
     </div>
   `;
   list.appendChild(li);
 }
+
 
 db.collection('messages').orderBy('createdAt', 'desc').limit(50).onSnapshot(snap => {
   list.innerHTML = '';
